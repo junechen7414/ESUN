@@ -27,6 +27,7 @@
 import apiClient from '../api/api.js';
 
 export default {
+  name: 'HelloWorld',
   data() {
     return {
       product: {
