@@ -18,4 +18,7 @@ export default {
   addOrder(order) {
     return apiClient.post('/addOrder', order);
   },
+  updateProductStock(stockUpdateInfo) {
+    return apiClient.put('/updateProductStock', stockUpdateInfo);
+  }
 };

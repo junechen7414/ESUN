@@ -107,48 +107,6 @@ export default {
         alert('訂單生成失敗，請稍後再試');
       }
     },
-
-  //     for (const productId in this.cart) {
-  //       if (this.cart[productId].selected) {
-  //         const product = {
-  //           ProductID: productId,
-  //       Quantity: this.cart[productId].quantity,
-  //       StandPrice: this.cart[productId].price,
-  //       // ItemPrice: this.cart[productId].price * this.cart[productId].quantity
-  //     };
-  //         selectedProducts.push(product);
-  //         totalPrice+=product.price*product.quantity;
-  //       }
-  // }
-  
-  // 隨機生成orderid和memberid
-  // const orderid = Math.random().toString(36).substring(2, 15);
-
-  // const orderItems = selectedProducts.map((product) => ({        
-  //       OrderID: orderid,
-  //       ProductID: product.ProductID,
-  //       Quantity: product.Quantity,
-  //       StandPrice: product.StandPrice,
-  //       ItemPrice: totalPrice
-  //     }));
-  // try {
-  //       const response = await apiClient.addOrderDetail(orderItems);
-
-  //       if (response.status === 200) {
-  //         alert('訂單生成成功！');
-  //         // Reset cart
-  //         // this.cart = this.products.reduce((acc, product) => {
-  //         //   acc[product.id] = { quantity: product.quantity, selected: false };
-  //         //   return acc;
-  //         // }, {});
-  //       } else {
-  //         alert('訂單生成失敗，請稍後再試');
-  //       }
-  //     } catch(error)    {
-  //       console.error('Error checking out:', error);
-  //       alert('訂單生成失敗，請稍後再試');
-  //     }
-  //   },
 }
 };
 </script>

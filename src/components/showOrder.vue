@@ -98,6 +98,17 @@
 
         if (response.status === 200) {
           alert('付款成功！');          
+          
+          const updateStockResponse = await apiClient.updateProductStock({
+        productId: selectedOrderDetail.productid,
+        quantity: selectedOrderDetail.quantity
+      });
+            if (updateStockResponse.status === 200) {
+                alert('庫存更新成功');
+            } else {
+                alert('付款成功，但庫存更新失敗，請稍後再試');
+            }
+
         } else {
           alert('付款失敗，請稍後再試');
         }
