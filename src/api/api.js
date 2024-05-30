@@ -12,7 +12,7 @@ export default {
   addProduct(product) {
     return apiClient.post('/addProduct', product);
   },
-  addOrder(order) {
-    return apiClient.post('/addOrder', order);
+  addOrderDetail(orderDetail) {
+    return apiClient.post('/addOrderDetail', orderDetail);
   }
 };

@@ -63,7 +63,7 @@ export default {
     },
     toggleSelectAll(checked) {
       this.products.forEach(product => {
-    this.cart[product.id] = { ...this.cart[product.id], selected: checked };
+    this.cart[product.id].selected = checked ;
   });
   },
   updateCartQuantity(productId, quantity) {
@@ -73,52 +73,80 @@ export default {
     this.cart[productId].selected = selected;
   },
   async checkout(){
-    const selectedProducts = [];
-    let totalPrice = 0;
-
-      for (const productId in this.cart) {
-        if (this.cart[productId].selected) {
-          const product = {
-            id: productId,
-            quantity: this.cart[productId].quantity,
-            price: this.cart[productId].price
-          };
-          selectedProducts.push(product);
-          totalPrice+=product.price*product.quantity;
-        }
-  }
-  if (selectedProducts.length === 0) {
+    const selectedProducts =  this.products.filter(product => this.cart[product.id].selected);    
+    // Valid selection
+    if (selectedProducts.length === 0) {
         alert('請至少選擇一項商品');
         return;
       }
-  // 隨機生成orderid和memberid
-  const orderid = Math.random().toString(36).substring(2, 15);
-  const memberid = Math.floor(Math.random() * 1000000); // 生成一個隨機的memberid
+      // Random order ID
+      let randomid = Math.random().toString(36).substring(2, 15);
+      
+      const orderItems = selectedProducts.map(product => ({
+        orderid: randomid, 
+        productid: product.id,
+        quantity: this.cart[product.id].quantity,
+        standprice: this.cart[product.id].price,
+        totalprice: this.cart[product.id].price * this.cart[product.id].quantity, // Calculate item price
+      }));
 
-  const orderData = {
-    orderid,
-    memberid,
-    price: totalPrice,
-    isPaid: false
-  };
-  try {
-        const response = await apiClient.addOrder(orderData);
+      try {
+        const response = await apiClient.addOrderDetail(orderItems);
 
         if (response.status === 200) {
           alert('訂單生成成功！');
-          // Reset cart
-          // this.cart = this.products.reduce((acc, product) => {
-          //   acc[product.id] = { quantity: product.quantity, selected: false };
-          //   return acc;
-          // }, {});
+          // Reset cart (optional, based on your requirements)
+          // this.cart = {}; // Clear all items
         } else {
           alert('訂單生成失敗，請稍後再試');
         }
-      } catch(error)    {
+      } catch (error) {
         console.error('Error checking out:', error);
         alert('訂單生成失敗，請稍後再試');
       }
     },
+
+  //     for (const productId in this.cart) {
+  //       if (this.cart[productId].selected) {
+  //         const product = {
+  //           ProductID: productId,
+  //       Quantity: this.cart[productId].quantity,
+  //       StandPrice: this.cart[productId].price,
+  //       // ItemPrice: this.cart[productId].price * this.cart[productId].quantity
+  //     };
+  //         selectedProducts.push(product);
+  //         totalPrice+=product.price*product.quantity;
+  //       }
+  // }
+  
+  // 隨機生成orderid和memberid
+  // const orderid = Math.random().toString(36).substring(2, 15);
+
+  // const orderItems = selectedProducts.map((product) => ({        
+  //       OrderID: orderid,
+  //       ProductID: product.ProductID,
+  //       Quantity: product.Quantity,
+  //       StandPrice: product.StandPrice,
+  //       ItemPrice: totalPrice
+  //     }));
+  // try {
+  //       const response = await apiClient.addOrderDetail(orderItems);
+
+  //       if (response.status === 200) {
+  //         alert('訂單生成成功！');
+  //         // Reset cart
+  //         // this.cart = this.products.reduce((acc, product) => {
+  //         //   acc[product.id] = { quantity: product.quantity, selected: false };
+  //         //   return acc;
+  //         // }, {});
+  //       } else {
+  //         alert('訂單生成失敗，請稍後再試');
+  //       }
+  //     } catch(error)    {
+  //       console.error('Error checking out:', error);
+  //       alert('訂單生成失敗，請稍後再試');
+  //     }
+  //   },
 }
 };
 </script>
