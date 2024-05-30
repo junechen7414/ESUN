@@ -2,18 +2,21 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <button @click="currentView = 'addProduct'">Add Product</button>
     <button @click="currentView = 'showProduct'">Show Products</button>
+    <button @click="currentView = 'showOrder'">查看訂單明細</button>
     <component :is="currentView"></component> 
 </template>
 
 <script>
 import addProduct from './components/addProduct.vue';
 import showProduct from './components/showProduct.vue';
+import showOrder from './components/showOrder.vue';
 
 export default {
   name: 'App',
   components: {
     addProduct,
-    showProduct
+    showProduct,
+    showOrder
   }
   ,
   data() {

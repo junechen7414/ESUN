@@ -14,5 +14,8 @@ export default {
   },
   addOrderDetail(orderDetail) {
     return apiClient.post('/addOrderDetail', orderDetail);
-  }
+  },
+  addOrder(order) {
+    return apiClient.post('/addOrder', order);
+  },
 };

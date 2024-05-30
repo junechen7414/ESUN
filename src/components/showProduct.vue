@@ -26,12 +26,13 @@
         </tr>
       </tbody>
     </table>
-    <button @click="checkout">結帳</button>
+    <button @click="checkout">下單</button>
     </div>
 </template>
 <script>
 import axios from 'axios';
 import apiClient from '../api/api.js';
+
 
 export default {
   name: 'showProduct',
@@ -81,7 +82,7 @@ export default {
       }
       // Random order ID
       let randomid = Math.random().toString(36).substring(2, 15);
-      
+
       const orderItems = selectedProducts.map(product => ({
         orderid: randomid, 
         productid: product.id,
@@ -95,6 +96,7 @@ export default {
 
         if (response.status === 200) {
           alert('訂單生成成功！');
+          this.showOrder = true;
           // Reset cart (optional, based on your requirements)
           // this.cart = {}; // Clear all items
         } else {
