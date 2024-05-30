@@ -23,9 +23,9 @@ public class OrderDetailController {
         orderDetailService.saveOrderDetail(orderDetail);
     } 
         
-    // @GetMapping("/showProduct")
-    // public List<Product> getProduct() {
-    //     return productService.showProduct();
-    // }
+    @GetMapping("/showOrderDetail")
+    public List<OrderDetail> getOrderDetail() {
+        return orderDetailService.showOrderDetail();
+    }
     
 }

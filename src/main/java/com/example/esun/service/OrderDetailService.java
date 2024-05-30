@@ -18,8 +18,8 @@ public class OrderDetailService {
         }
     }
 
-    // public List<Product> showProduct(){
-    //     return productRepo.findByQuantityGreaterThan(0);
-    // }
+    public List<OrderDetail> showOrderDetail(){
+        return orderDetailRepo.findAll();
+    }
 
 }
