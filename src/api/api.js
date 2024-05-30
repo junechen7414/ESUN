@@ -11,5 +11,8 @@ const apiClient = axios.create({
 export default {
   addProduct(product) {
     return apiClient.post('/addProduct', product);
+  },
+  addOrder(order) {
+    return apiClient.post('/addOrder', order);
   }
 };

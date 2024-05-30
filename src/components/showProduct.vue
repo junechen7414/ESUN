@@ -31,7 +31,7 @@
 </template>
 <script>
 import axios from 'axios';
-// import apiClient from '../api/api.js';
+import apiClient from '../api/api.js';
 
 export default {
   name: 'showProduct',
@@ -53,7 +53,7 @@ export default {
 
         // Initialize cart with quantity for each product
         this.cart = this.products.reduce((acc, product) => {
-          acc[product.id] = { quantity: product.quantity };
+          acc[product.id] = { quantity: 0, selected: false, price: product.price };
           return acc;
         }, {});
 
@@ -74,37 +74,49 @@ export default {
   },
   async checkout(){
     const selectedProducts = [];
+    let totalPrice = 0;
+
       for (const productId in this.cart) {
         if (this.cart[productId].selected) {
           const product = {
             id: productId,
             quantity: this.cart[productId].quantity,
+            price: this.cart[productId].price
           };
           selectedProducts.push(product);
+          totalPrice+=product.price*product.quantity;
         }
   }
   if (selectedProducts.length === 0) {
         alert('請至少選擇一項商品');
         return;
       }
-      try {
-        const response = await axios.post('http://localhost:8080/checkout', {
-          products: selectedProducts,
-        });
+  // 隨機生成orderid和memberid
+  const orderid = Math.random().toString(36).substring(2, 15);
+  const memberid = Math.floor(Math.random() * 1000000); // 生成一個隨機的memberid
+
+  const orderData = {
+    orderid,
+    memberid,
+    price: totalPrice,
+    isPaid: false
+  };
+  try {
+        const response = await apiClient.addOrder(orderData);
 
         if (response.status === 200) {
-          alert('結帳成功！');
+          alert('訂單生成成功！');
           // Reset cart
-          this.cart = this.products.reduce((acc, product) => {
-            acc[product.id] = { quantity: product.quantity, selected: false };
-            return acc;
-          }, {});
+          // this.cart = this.products.reduce((acc, product) => {
+          //   acc[product.id] = { quantity: product.quantity, selected: false };
+          //   return acc;
+          // }, {});
         } else {
-          alert('結帳失敗，請稍後再試');
+          alert('訂單生成失敗，請稍後再試');
         }
       } catch(error)    {
         console.error('Error checking out:', error);
-        alert('結帳失敗，請稍後再試');
+        alert('訂單生成失敗，請稍後再試');
       }
     },
 }
