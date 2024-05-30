@@ -30,4 +30,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  use testdb;  
 名字要對上Springboot中的設定  
 2. 之後執行Spring Boot的 '檔名'Application.java檔，建立資料庫，然後使用default的web server tomcat server  
-3. 運行前端的Vue.js ， 有個簡陋的操作介面，把新增商品功能和新增訂單功能和成一塊，點擊後操作各自的功能    
+3. 運行前端的Vue.js ， 有個簡陋的操作介面，把新增商品功能和新增訂單功能和成一塊，點擊後操作各自的功能
+4. 測試結果:  https://youtu.be/wQaY7NTHuEc
