@@ -20,4 +20,11 @@ public class ProductService {
         return productRepo.findByQuantityGreaterThan(0);
     }
 
+    // ProductService.java
+    public void updateProductStock(String productId, int quantity) {
+        Product product = productRepo.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepo.save(product);
+    }
+
 }
