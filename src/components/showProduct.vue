@@ -15,7 +15,7 @@
       <tbody>
         <tr v-for="product in products" :key="product.id">
           <td>
-            <input type="checkbox" v-model="cart[product.id]" />
+            <input type="checkbox" v-model="cart[product.id].selected" @change = "updateSeletcion(product.id,$event.target.checked)"/>
           </td>
           <td>{{ product.name }}</td>
           <td>{{ product.price }}</td>
@@ -26,6 +26,7 @@
         </tr>
       </tbody>
     </table>
+    <button @click="checkout">結帳</button>
     </div>
 </template>
 <script>
@@ -61,14 +62,51 @@ export default {
       }
     },
     toggleSelectAll(checked) {
-      this.cart = this.products.reduce((acc, product) => {
-        acc[product.id] = checked; // 將選擇狀態存儲在cart物件中
-        return acc;
-      },{});
+      this.products.forEach(product => {
+    this.cart[product.id] = { ...this.cart[product.id], selected: checked };
+  });
   },
   updateCartQuantity(productId, quantity) {
     this.cart[productId].quantity = quantity;
+  },
+  updateSeletcion(productId,selected){
+    this.cart[productId].selected = selected;
+  },
+  async checkout(){
+    const selectedProducts = [];
+      for (const productId in this.cart) {
+        if (this.cart[productId].selected) {
+          const product = {
+            id: productId,
+            quantity: this.cart[productId].quantity,
+          };
+          selectedProducts.push(product);
+        }
   }
+  if (selectedProducts.length === 0) {
+        alert('請至少選擇一項商品');
+        return;
+      }
+      try {
+        const response = await axios.post('http://localhost:8080/checkout', {
+          products: selectedProducts,
+        });
+
+        if (response.status === 200) {
+          alert('結帳成功！');
+          // Reset cart
+          this.cart = this.products.reduce((acc, product) => {
+            acc[product.id] = { quantity: product.quantity, selected: false };
+            return acc;
+          }, {});
+        } else {
+          alert('結帳失敗，請稍後再試');
+        }
+      } catch(error)    {
+        console.error('Error checking out:', error);
+        alert('結帳失敗，請稍後再試');
+      }
+    },
 }
 };
 </script>
