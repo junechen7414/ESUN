@@ -1,16 +1,25 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <button @click="currentView = 'addProduct'">Add Product</button>
+    <button @click="currentView = 'showProduct'">Show Products</button>
+    <component :is="currentView"></component> 
 </template>
 
 <script>
-import HelloWorld from './components/addProduct.vue';
-// import addProduct from './components/addProduct.vue'
+import addProduct from './components/addProduct.vue';
+import showProduct from './components/showProduct.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    addProduct,
+    showProduct
+  }
+  ,
+  data() {
+    return {
+      currentView: 'HelloWorld' // 初始顯示商品清單
+    };
   }
 }
 </script>
